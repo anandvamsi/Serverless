@@ -38,3 +38,6 @@ if event_name == 'CreateBucket':
     finally:
       s3.put_bucket_tagging(Bucket=bucket_name, Tagging=tag_set)
     return True
+
+
+Tagging Document:-https://medium.com/credera-engineering/auto-tagging-with-aws-and-terraform-246affbf6797
