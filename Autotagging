@@ -1,0 +1,40 @@
+# lambda_function.py
+import json
+import boto3
+import datetime
+s3=boto3.client('s3')
+def lambda_handler(event, context):
+# this is optional, it will give you an output in the cloudwatch
+# log group '/aws/lambda/auto-tagger-function'.
+# For actual deployment remove the print statement.
+  print(json.dumps(event))
+  detail=event['detail']
+  event_source=detail['eventSource']
+  event_name=detail['eventName']
+  user_type=detail['userIdentity']['type']
+  principal=detail['userIdentity']['principalId']
+# Gets the user from event 
+  if user_type == 'IAMUser':
+    user=detail['userIdentity']['userName']
+  else:
+    user=principal.split(':')[1]
+  current_date=datetime.date.today().strftime("%Y-%m-%d")  
+  tag_set = {
+      'TagSet': [
+              {'Key': 'CreatedBy', 'Value': user},
+              {'Key': 'CreatedOn', 'Value': current_date}
+    ]
+  }
+if event_name == 'CreateBucket':
+# Because of the way s3 applies tags, if you have already supplied 
+# tags to the bucket when creating it, applying tags again will 
+# overwrite those tags. We need to use a 'try' + 'finally' block
+# to add the existing 'TagSet' to the tag_set we want to 
+# automatically apply
+   try:
+      bucket_name = detail['requestParameters']['bucketName']
+      user_added_tags = s3.get_bucket_tagging(Bucket=bucket_name)['TagSet']
+      tag_set += user_added_tags
+    finally:
+      s3.put_bucket_tagging(Bucket=bucket_name, Tagging=tag_set)
+    return True
