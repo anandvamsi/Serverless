@@ -1,0 +1,21 @@
+Benefits fo serverless
+--------------------------
+- zero server management
+- HA
+- Flexible Scaling 
+- No idle capacity
+
+Usecases
+------------
+Response to the events 
+  - File object placed in the s3 bucket  lambda will parse the file and store in the s3 bucket.
+  
+ Runs in Schedule 
+   - EBS snapshots
+   
+Supports Back end applications 
+    - API responding 
+  
+  Lambda can be written java,c,c++ python node js
+  
+ 
