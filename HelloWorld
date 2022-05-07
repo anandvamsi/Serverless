@@ -1,0 +1,16 @@
+Create a lambda using select from scratch 
+- use python 3.6 as the environment 
+- choose role with basic functionalities
+
+Change the test data dicitornary with below
+{
+"Name": "Anand"
+}
+
+>>>Code 
+import json
+
+def lambda_handler(event, context):
+    resp = 'The data is {}'.format(event['Name'])
+    return resp
+<<< code 
