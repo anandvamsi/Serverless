@@ -1,0 +1,16 @@
+#Aliases in the lambda function
+
+we are aware of about the release version of the the 
+- release-1
+- release-2
+
+when we release new version in the lambda, for the deployment trigger in case of cloudwatch 
+  - we need to modify the the cloudwatch even traget to new version number.
+  
+  
+ Using Aliases, it remove the above manual task  instead we Create a alias in the lambda UI and link the alias to the verion.
+ - Create a alias in the lambda and link a verion to that.
+ - In Cloudwatch events, instead of linking to the version , we need to select which was created in the above step::- ONLY one time
+ 
+ Next time onwards when a new version is created, map the new version to alias in the Lambda end:- No need to change any thing in cloudwatch end
+ since alias is already mapped to the newest version
